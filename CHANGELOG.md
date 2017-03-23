@@ -1,3 +1,7 @@
+2.0.1 / 2017-03-23
+------------------
+added process once SIGINT monitor killer
+
 2.0.0 / 2017-02-17
 ------------------
 Breaking Change: Include use of native Promise. NodeJs .10 is no longer supported

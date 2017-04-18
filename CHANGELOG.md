@@ -1,3 +1,7 @@
+2.0.2 / 2017-04-18
+------------------
+addded --html5Mode
+
 2.0.1 / 2017-03-23
 ------------------
 added process once SIGINT monitor killer

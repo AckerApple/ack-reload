@@ -69,6 +69,95 @@ describe('reload',function(){
     })
     .catch(done)
   })
+
+  it('serves-html5Mode',function(done){
+    var config = null
+    var servePath = path.join(__dirname,'../','expressSampleApp','public')
+    
+    reload(servePath,{port:3030, open:false, log:function(){}, html5Mode:true})
+    .then(function(setup){    
+      config = setup
+    })
+
+    //request missing index2.html
+    .then(function(){
+      return promiseRequest({host:'localhost', port:'3030', path:'/index2.html'})
+    })
+    .then(function(res){
+      assert.equal(res.statusCode, 200)
+      assert.equal(res.statusMessage, 'OK')
+      res.setEncoding('utf8');
+      return new Promise(function(resolve,rej){
+        res.on('data', function (chunk) {
+          resolve(chunk)
+        })
+      })
+    })
+    .then(function(body){
+      assert.equal(body.search(/reload\/reload\.js/)>=0, true)
+    })
+    
+    //request missing folder
+    .then(function(){
+      return promiseRequest({host:'localhost', port:'3030', path:'/index2/'})
+    })
+    .then(function(res){
+      assert.equal(res.statusCode, 200)
+      assert.equal(res.statusMessage, 'OK')
+      res.setEncoding('utf8');
+      return new Promise(function(resolve,rej){
+        res.on('data', function (chunk) {
+          resolve(chunk)
+        })
+      })
+    })
+    .then(function(body){
+      assert.equal(body.search(/reload\/reload\.js/)>=0, true)
+    })
+
+    //request index and then test response body
+    .then(function(){
+      return promiseRequest({host:'localhost', port:'3030', path:'/index.html'})
+    })
+    .then(function(res){
+      assert.equal(res.statusCode, 200)
+      assert.equal(res.statusMessage, 'OK')
+      
+      res.setEncoding('utf8');
+      return new Promise(function(resolve,rej){
+        res.on('data', function (chunk) {
+          resolve(chunk)
+        })
+      })
+    })
+    .then(function(body){
+      assert.equal(body.search(/reload\/reload\.js/)>=0, true)
+    })
+
+    //request client-reload script and then test response body
+    .then(function(){
+      return promiseRequest({host:'localhost', port:'3030', path:'/reload/reload.js'})
+    })
+    .then(function(response){
+      assert.equal(response.statusCode, 200)
+      assert.equal(response.statusMessage, 'OK')
+      
+      response.setEncoding('utf8');
+      return new Promise(function(res,rej){
+        response.on('data', function (chunk) {
+          res(chunk)
+        })
+      })
+    })
+    .then(function(body){
+      assert.equal(body.search(/Reload/)>=0, true)
+    })
+
+    .then(function(){
+      config.httpServer.close(done)
+    })
+    .catch(done)
+  })
 })
 
 function promiseRequest(){

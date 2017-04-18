@@ -23,11 +23,15 @@ function runHelp(){
   console.log('    -p, --port [port]', 'The port to bind to. Can be set with PORT env variable as well. Defaults to 8080')
   console.log('    -s, --start-page [start-page]', 'Specify a start page. Defaults to index.html')
   console.log('    -v, --verbose [verbose]', 'Turning on logging on the server and client side. Defaults to true')
+  console.log('    --html5Mode', 'All requests for missing html files will load root index.html')
   console.log()
   process.exit()
 }
 
-var options = {log:log}
+var options = {
+  log:log,
+  html5Mode:process.argv.indexOf('--html5Mode')>0
+}
 
 var dirArgIndex = process.argv.indexOf('-d')
 if(!dirArgIndex<0)dirArgIndex = process.argv.indexOf('--dir')

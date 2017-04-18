@@ -1,10 +1,10 @@
 {
-  "name": "reload",
-  "version": "2.0.1",
+  "name": "ack-reload",
+  "version": "2.0.2",
   "description": "Node.js module to refresh and reload your code in your browser when your code changes. No browser plugins required.",
   "repository": {
     "type": "git",
-    "url": "git@github.com:jprichardson/reload.git"
+    "url": "git@github.com:ackerapple/ack-reload.git"
   },
   "keywords": [
     "reload",
@@ -35,7 +35,7 @@
     "help": "node ./bin/reload -h"
   },
   "bin": {
-    "reload": "./bin/reload"
+    "ack-reload": "./bin/reload"
   },
   "devDependencies": {
     "mocha": "^3.2.0"

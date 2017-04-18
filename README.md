@@ -1,9 +1,5 @@
-reload
+# ack-reload
 =======
-
-[![build status](https://api.travis-ci.org/jprichardson/reload.svg)](http://travis-ci.org/jprichardson/reload)
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
-[![NPM version](https://img.shields.io/npm/v/reload.svg?style=flat-square)](https://www.npmjs.com/package/reload)
 
 Automatically refresh and reload your code in your browser when your code changes. No browser plugins required.
 
@@ -14,7 +10,7 @@ Restarting your HTTP server and refreshing your browser is annoying.
 
 ### Table of Contents
 - [How does it work?](#how-does-it-work)
-- [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
+- [Upgrading from reload to ack-reload](#upgrading-from-reload-to-ack-reload)
 - [Installation](#installation)
 - [Examples](#examples)
   - [Stand-Alone Example](#stand-alone-example)
@@ -25,19 +21,20 @@ Restarting your HTTP server and refreshing your browser is annoying.
   - [Middlware](#middlware)
   - [Arguments](#arguments)
 - [Commands](#commands)
+- [Credits](#credits)
 - [License](#license)
 
 ## How does it work?
 
-Reload works in three different ways depending on if you're using it:
+ack-reload works in three different ways depending on if you're using it:
 
-1. Run reload in NodeJs process with full API control using config options
-2. Use reload middleware to "attach" reload to a existing server route
+1. Run ack-reload in NodeJs process with full API control using config options
+2. Use ack-reload middleware to "attach" ack-reload to a existing server route
 3. As a command line tool which starts its own Server to monitor the file(s) you're editing for changes and to serve `reload-client.js` to the browser.
 
-Once reload-server and reload-client are connected, the client side code opens a [WebSocket](https://en.wikipedia.org/wiki/WebSocket) to the server and waits for the WebSocket to close, once it closes, reload waits for the server to come back up (waiting for a socket on open event), once the socket opens we reload the page.
+Once reload-server and reload-client are connected, the client side code opens a [WebSocket](https://en.wikipedia.org/wiki/WebSocket) to the server and waits for the WebSocket to close, once it closes, ack-reload waits for the server to come back up (waiting for a socket on open event), once the socket opens we reload the page.
 
-### Upgrading from v1 to v2
+### Upgrading from reload to ack-reload
 The following major changes have taken place
 
 > Breaking Change: v2 includes use of native Promise. NodeJs .12+ is required
@@ -56,10 +53,24 @@ The following major changes have taken place
 - More ways to implement
   - Connect to any server, not just an express server. The non-cli reload.js is far more functional and easier to integrate into other projects.
 - Better Client Script Inclusion
-  - reload package auto appends client script to all html requests
+  - ack-reload package auto appends client script to all html requests
 
-Express app v1
+Express app for ack-reload
+```javascript
+var reload = require('ack-reload')
+var app = express()
+var publicDir = path.join(__dirname, 'public')
+
+//Only host reload software. Create websocket to http attachment. File watching
+app.use( reload.middleware(publicDir, server) )
+
+http.createServer(app).listen(3000)
 ```
+
+Express app for OLD reload
+> The following code is how the OLD [reload](https://www.npmjs.com/package/reload) app worked
+```javascript
+var reload = require('reload')
 var app = express()
 var publicDir = path.join(__dirname, 'public')
 
@@ -72,57 +83,46 @@ reload(server, app)
 server.listen(3000)
 ```
 
-Express app v2
-```
-var app = express()
-var publicDir = path.join(__dirname, 'public')
-
-//Only host reload software. Create websocket to http attachment. File watching
-app.use( reload.middleware(publicDir, server) )
-
-http.createServer(app).listen(3000)
-```
-
 
 ## Installation
 
-```
-npm install [-g] [--save-dev] reload
+```bash
+npm install [-g] [--save-dev] ack-reload
 ```
 
 #### Typical Package Installation
-```
-npm install --save-dev reload
+```bash
+npm install --save-dev ack-reload
 ```
 
 #### Typical Global Installation
-```
-npm install -g reload
+```bash
+npm install -g ack-reload
 ```
 
 ## Examples
 
-Three ways to use reload
+Three ways to use ack-reload
 ---
 
-There are three different ways to use reload.
+There are three different ways to use ack-reload.
 
-1. As a server, allowing reload to host your whole project
-2. As middleware, allowing your exsting server project to utilize reload
+1. As a server, allowing ack-reload to host your whole project
+2. As middleware, allowing your exsting server project to utilize ack-reload
 2. As a command line application to serve up static HTML files and be able to reload when the code is altered
 
-Using reload in Express
+Using ack-reload in Express
 ---
-When used with Express reload creates a new Express route for reload. When you restart the server, the client will detect the server being restarted and automatically refresh the page.
+When used with Express ack-reload creates a new Express route for reload. When you restart the server, the client will detect the server being restarted and automatically refresh the page.
 
-Reload can be used in conjunction with tools that allow for automatically restarting the server such as [supervisor](https://github.com/isaacs/node-supervisor) (recommended), [nodemon](https://github.com/remy/nodemon), [forever](https://github.com/nodejitsu/forever), etc.
+ack-reload can be used in conjunction with tools that allow for automatically restarting the server such as [supervisor](https://github.com/isaacs/node-supervisor) (recommended), [nodemon](https://github.com/remy/nodemon), [forever](https://github.com/nodejitsu/forever), etc.
 
 ### Stand-Alone Example
 Serve and watch a folder all in one
 
 **`server.js`:**
 ```javascript
-var reload = require('reload')
+var reload = require('ack-reload')
 var publicDir = path.join(__dirname, 'public')
 
 reload(publicDir,{port:3000})
@@ -136,7 +136,7 @@ Serve and watch a folder on an existing server
 var express = require('express')
 var http = require('http')
 var path = require('path')
-var reload = require('reload')
+var reload = require('ack-reload')
 var bodyParser = require('body-parser')
 var logger = require('morgan')
 
@@ -180,18 +180,16 @@ A demo template that has a change with every reload
 </html>
 ```
 
-**Refer to the [reload express sample app](https://github.com/jprichardson/reload/tree/master/expressSampleApp) for this working example.**
-
 ### Manually Reloading
 
 Two ways to approach:
-- Manually call returned reload function after starting a reload server
+- Manually call returned reload function after starting a ack-reload server
 - Integrate the reload function into running middleware
 
 Manually Reloading Application
 ```
 var publicDir = path.join(__dirname, 'public')
-var reload = require('reload')
+var reload = require('ack-reload')
 
 reload(publicDir)
 .then(config=>{
@@ -212,7 +210,7 @@ Manually Reloading With MiddleWare
 
 ```javascript
 var publicDir = path.join(__dirname, 'public')
-var reload = require('reload')
+var reload = require('ack-reload')
 
 var server = http.createServer(function(){
   midware(req,res)
@@ -232,7 +230,7 @@ setTimeout(function(){
 ### Advanced Full Featured Example
 
 ```
-require('reload')(__dirname,{
+require('ack-reload')(__dirname,{
   port:8080,
   log:console.log.bind(console),
   open:true,
@@ -263,6 +261,7 @@ require('reload')(__dirname,{
 ### Middlware
 
 ```
+var reload = require('ack-reload')
 var midware = reload.middleware(pathTo)
 
 require('http').createServer(function(req,res){
@@ -291,10 +290,11 @@ require('http').createServer(function(req,res){
   - `startPage` String - Specify a start page. Defaults to index.html.
   - `log` Function = console.log - Method to process logging info.
   - `watch` Boolean = true - Enable/disable watching files. Manual reload will be required
+  - `html5Mode` Boolean = false - Enable/disable always returning root index.html for all html 404 requests
 
 ## Commands
 
-Using reload as a command line application
+Using ack-reload as a command line application
 ---
 
 There are two ways to use the command line application.
@@ -304,20 +304,20 @@ There are two ways to use the command line application.
 
 Each will require different modes of installing.
 
-In case one you should install reload globally with `npm install reload -g`. Also with reload installed globally you can go to any directory with an HTML file and use the command reload to constantly watch it and reload it while you make changes.
+In case one you should install ack-reload globally with `npm install ack-reload -g`. Also with ack-reload installed globally you can go to any directory with an HTML file and use the command reload to constantly watch it and reload it while you make changes.
 
 In case two you should install locally with `npm install --save-dev`, since this tool is to aid in development you should install it as a dev dependency.
 
 Navigate to your html directory:
 
-    reload -b
+    ack-reload -b
 
 This will open your `index.html` file in the browser. Any changes that you make will now reload in the browser. You don't need to modify your HTML at all.
 
 ### Usage for Command Line Application
 
 ```
-Usage: reload [options]
+Usage: ack-reload [options]
 
 Options:
 
@@ -331,6 +331,11 @@ Options:
   -s, --start-page [start-page]		Specify a start page. Defaults to index.html.
   -v, --verbose						Turns on logging on the server and client side. Defaults to true.
 ```
+
+## Credits
+
+This package was originally a fork and pull-request of [reload](https://www.npmjs.com/package/reload). My [pull request](https://github.com/jprichardson/reload/pull/62) turned out to be too large for the reload team to adopt. My pull request is now it's own package published on NPM.
+
 
 ## License
 

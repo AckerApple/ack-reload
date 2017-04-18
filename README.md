@@ -1,5 +1,4 @@
 # ack-reload
-=======
 
 Automatically refresh and reload your code in your browser when your code changes. No browser plugins required.
 

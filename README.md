@@ -2,6 +2,11 @@
 
 Automatically refresh and reload your code in your browser when your code changes. No browser plugins required.
 
+[![build status](https://travis-ci.org/AckerApple/reload.svg)](http://travis-ci.org/AckerApple/reload)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+[![NPM version](https://img.shields.io/npm/v/ack-reload.svg?style=flat-square)](https://www.npmjs.com/package/ack-reload)
+
+
 Why?
 ----
 

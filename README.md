@@ -19,6 +19,7 @@ Restarting your HTTP server and refreshing your browser is annoying.
   - [Express Example](#express-example)
   - [Manually Reloading](#manually-reloading)
   - [Advanced Full Featured Example](#advanced-full-featured-example)
+  - [Integrate with Existing App](#integrate-with-existing-app)
 - [API](#api)
   - [Middlware](#middlware)
   - [Arguments](#arguments)
@@ -255,6 +256,48 @@ require('ack-reload')(__dirname,{
 .catch(function(e){
   console.error(e)
 })
+```
+
+### Integrate with Existing App
+The following example takes and existing app, builds a new app, and server both together with ack-reload
+
+Preexisting app.js
+```javascript
+const express = require('express');
+
+const app = express();
+// LOTS AND LOTS OF MIDDLEWARE HERE...
+// server is not created since in this module.
+app.use((err, req, res, next) => {
+  // final error handler
+});
+
+module.exports = app;
+```
+
+serve.js
+```javascript
+const app = require('./app');
+const http = require('http');
+const reload = require('ack-reload');
+
+//tell ack-reload folder to put watch on
+const pathToWwwFiles = require('path').join(__dirname,'www');
+
+//Our server that hosts app and reload code
+const server = http.createServer(function(req,res){
+  if( reload.isRequestForReload(req) ){
+    midware(req, res)//html or reload.js request
+  }else{
+    app(req,res)
+  }
+});
+
+//watch files, create websocket. Return function to process requests
+const midware = reload.middleware(pathToWwwFiles, server)
+
+// at this point we have server and app and reload code
+server.listen(8888, () => { console.log('started!') });
 ```
 
 

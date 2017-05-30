@@ -1,6 +1,11 @@
+2.0.7 / 2017-04-18
+------------------
+added .appveyor.yml test suite
+enhanced reload.js script insertion
+
 2.0.2 / 2017-04-18
 ------------------
-addded --html5Mode
+added --html5Mode
 
 2.0.1 / 2017-03-23
 ------------------

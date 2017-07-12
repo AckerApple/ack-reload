@@ -12,7 +12,7 @@ Restarting your HTTP server and refreshing your browser is annoying.
 
 ### Table of Contents
 - [How does it work?](#how-does-it-work)
-- [Differences between original reload package and this ack-reload](#differences-between-original-reload-package-and-this-ack-reload)
+- [Benefits of ack-reload over original reload package](#benefits-of-ack-reload-over-original-reload-package)
 - [Installation](#installation)
 - [Examples](#examples)
   - [Stand-Alone Example](#stand-alone-example)

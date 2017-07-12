@@ -1,3 +1,10 @@
+2.0.8 / 2017-07-12
+------------------
+Added node 8 tests
+Fixed port 80 issue for websockets
+Added onReload
+Added timestamp during server reloads
+
 2.0.7 / 2017-04-18
 ------------------
 added .appveyor.yml test suite

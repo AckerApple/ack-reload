@@ -12,7 +12,7 @@ Restarting your HTTP server and refreshing your browser is annoying.
 
 ### Table of Contents
 - [How does it work?](#how-does-it-work)
-- [Upgrading from reload to ack-reload](#upgrading-from-reload-to-ack-reload)
+- [Differences between original reload package and this ack-reload](#differences-between-original-reload-package-and-this-ack-reload)
 - [Installation](#installation)
 - [Examples](#examples)
   - [Stand-Alone Example](#stand-alone-example)
@@ -37,26 +37,37 @@ ack-reload works in three different ways depending on if you're using it:
 
 Once reload-server and reload-client are connected, the client side code opens a [WebSocket](https://en.wikipedia.org/wiki/WebSocket) to the server and waits for the WebSocket to close, once it closes, ack-reload waits for the server to come back up (waiting for a socket on open event), once the socket opens we reload the page.
 
-### Upgrading from reload to ack-reload
-The following major changes have taken place
+## Benefits of ack-reload over original reload package
+ack-reload is a fork of the npm package [reload](https://www.npmjs.com/package/reload)
 
-> Breaking Change: v2 includes use of native Promise. NodeJs .12+ is required
-
-- EADDRINUSE prompt
+- Html5Mode
+  - ack-reload has the option to make all requests root bound
+  - Original reload package does not play well with html5 routing apps
+- onReload option
+  - Everytime a websocket reload is issued a callback function can be called
+- True unit tests
+  - ack-reload actually has real unit tests provided by mocha
+- Port already in use prompt aka EADDRINUSE prompt
   - Added EADDRINUSE catcher that starts a cli-prompt when desired port is in use. Another port can be supplied to start server on another open port.
-- Multiple connections supported
-  - Now multiple browsers and multiple web socket connections can be maintained
+- Native Promises
+  - When starting an ack-reload server via the API, a native promise is returned AFTER all services have been started
 - Watching Files
   - Watching files is more intuitive and actually available outside of just the CLI
+  - The original reload package does not auto watch files
 - Better Logging
   - Better verbose logging where an outside library can mandate how logging occurs
 - Weight loss
-  - Removed a great amount of weight in dependencies. Package is far simpler to use and weighs far less
-  - Express no longer a dependency
+  - ack-reload does NOT depend on Express
+  - Removed a great amount of weight in dependencies. Package is far simpler to use and weighs
 - More ways to implement
-  - Connect to any server, not just an express server. The non-cli reload.js is far more functional and easier to integrate into other projects.
+  - Connect to any server, not just an express server.
+  - The non-cli reload.js is far more functional and easier to integrate into other projects.
+  - UPDATE 7/12/17 : reload v2 now support sever mode
 - Better Client Script Inclusion
   - ack-reload package auto appends client script to all html requests
+- Multiple connections supported
+  - Now multiple browsers and multiple web socket connections can be maintained
+  - reload v2 now appears to include this (7/12/2017)
 
 Express app for ack-reload
 ```javascript
@@ -82,7 +93,9 @@ app.get('/', function (req, res) {
 })
 
 var server = http.createServer(app)
+
 reload(server, app)
+
 server.listen(3000)
 ```
 
@@ -190,11 +203,17 @@ Two ways to approach:
 - Integrate the reload function into running middleware
 
 Manually Reloading Application
-```
+```javascript
 var publicDir = path.join(__dirname, 'public')
 var reload = require('ack-reload')
 
-reload(publicDir)
+var options = {
+  onReload:function(){
+    console.log('reload occurred at '+new Date().toString())
+  }
+}
+
+reload(publicDir, options)
 .then(config=>{
   //force reload every 10 seconds of all browser websocket connections
   setInterval(config.reload, 10000);
@@ -232,9 +251,9 @@ setTimeout(function(){
 
 ### Advanced Full Featured Example
 
-```
+```javascript
 require('ack-reload')(__dirname,{
-  port:8080,
+  port:9856,
   log:console.log.bind(console),
   open:true,
   message:'reload',
@@ -305,14 +324,14 @@ server.listen(8888, () => { console.log('started!') });
 
 ### Middlware
 
-```
+```javascript
 var reload = require('ack-reload')
 var midware = reload.middleware(pathTo)
 
 require('http').createServer(function(req,res){
   midware(req,res)
 })
-.listen(8080,function(){
+.listen(9856,function(){
   if(err){
     console.log(err)
   }else{
@@ -325,17 +344,17 @@ require('http').createServer(function(req,res){
 
 - `pathTo`:  Folder to watch and serve. Defaults to current dir
 - `options`: 
-  - `port` Number
+  - `port` Number = 9856 - The port to bind to. Can be set with PORT env variable as well.
   - `log` Function = console.log
   - `open` Boolean = true - open a browser window
   - `message` String - when port is in use, tailor prompt messages label
   - `hostname` String = localhost - This allows for custom hostnames. Defaults to localhost.
   - `filter` Function - function(pathTo,stat) when function returns true, file will be watched.
-  - `port` Number = 8080 - The port to bind to. Can be set with PORT env variable as well.
   - `startPage` String - Specify a start page. Defaults to index.html.
   - `log` Function = console.log - Method to process logging info.
   - `watch` Boolean = true - Enable/disable watching files. Manual reload will be required
   - `html5Mode` Boolean = false - Enable/disable always returning root index.html for all html 404 requests
+  - `onReload` Function - Everytime a websocket reload is issued, have a function called
 
 ## Commands
 
@@ -372,7 +391,7 @@ Options:
   -n, --hostname                    If -b flag is being used, this allows for custom hostnames. Defaults to localhost.
   -d, --dir [dir]                   The directory to serve up. Defaults to current dir.
   -e, --exts [extensions]           Extensions separated by commas or pipes. Defaults to html,js,css.
-  -p, --port [port]                 The port to bind to. Can be set with PORT env variable as well. Defaults to 8080
+  -p, --port [port]                 The port to bind to. Can be set with PORT env variable as well. Defaults to 9856
   -s, --start-page [start-page]		  Specify a start page. Defaults to index.html.
   -v, --verbose						          Turns on logging on the server and client side. Defaults to true.
   - `html5Mode`                     Boolean = false - Enable/disable always returning root index.html for all html 404 requests

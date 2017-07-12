@@ -1,6 +1,6 @@
 {
   "name": "ack-reload",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "Node.js module to refresh and reload your code in your browser when your code changes. No browser plugins required.",
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
   "dependencies": {
     "node-static": "^0.7.9",
     "open": "~0.0.5",
-    "prompt": "^1.0.0",
+    "prompt": "github:flatiron/prompt",
     "watch": "^1.0.2",
     "ws": "~1.1.1"
   },
@@ -30,7 +30,7 @@
   "scripts": {
     "test": "mocha test/index.js",
     "test:server": "node expressSampleApp/reload-server",
-    "test:browser": "node ./bin/reload -b -d expressSampleApp/public",
+    "test:browser": "node ./bin/reload -b -d expressSampleApp/public -p 8181",
     "test:closes": "node ./bin/reload -b -d expressSampleApp/public --test",
     "help": "node ./bin/reload -h"
   },

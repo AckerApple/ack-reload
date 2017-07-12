@@ -20,7 +20,7 @@ function runHelp(){
   console.log('    -n, --hostname [hostname]', 'If -b flag is being used, this allows for custom hostnames. Defaults to localhost.')
   console.log('    -d, --dir [dir]', 'The directory to serve up. Defaults to current dir.')
   console.log('    -e, --exts [extensions]', 'Extensions separated by commas or pipes. Defaults to html,js,css.')
-  console.log('    -p, --port [port]', 'The port to bind to. Can be set with PORT env variable as well. Defaults to 8080')
+  console.log('    -p, --port [port]', 'The port to bind to. Can be set with PORT env variable as well. Defaults to 9856')
   console.log('    -s, --start-page [start-page]', 'Specify a start page. Defaults to index.html')
   console.log('    -v, --verbose [verbose]', 'Turning on logging on the server and client side. Defaults to true')
   console.log('    --html5Mode', 'All requests for missing html files will load root index.html')
@@ -78,7 +78,7 @@ if(verbose){
 
 function getDefaultPort(){
   if(process.env.NODE_ENV&&process.env.NODE_ENV.PORT)return process.env.NODE_ENV.PORT
-  return 8080
+  return 9856
 }
 
 if(test){

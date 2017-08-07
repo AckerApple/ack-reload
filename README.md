@@ -45,8 +45,6 @@ ack-reload is a fork of the npm package [reload](https://www.npmjs.com/package/r
   - Original reload package does not play well with html5 routing apps
 - onReload option
   - Everytime a websocket reload is issued a callback function can be called
-- True unit tests
-  - ack-reload actually has real unit tests provided by mocha
 - Port already in use prompt aka EADDRINUSE prompt
   - Added EADDRINUSE catcher that starts a cli-prompt when desired port is in use. Another port can be supplied to start server on another open port.
 - Native Promises
@@ -54,10 +52,12 @@ ack-reload is a fork of the npm package [reload](https://www.npmjs.com/package/r
 - Watching Files
   - Watching files is more intuitive and actually available outside of just the CLI
   - The original reload package does not auto watch files
+- ack-reload does NOT have a name conflict on Ubuntu like reload does
 - Better Logging
   - Better verbose logging where an outside library can mandate how logging occurs
 - Weight loss
   - ack-reload does NOT depend on Express
+    - UPDATE: 8/7/17 reload has removed Express but currently is broken
   - Removed a great amount of weight in dependencies. Package is far simpler to use and weighs
 - More ways to implement
   - Connect to any server, not just an express server.
@@ -67,7 +67,9 @@ ack-reload is a fork of the npm package [reload](https://www.npmjs.com/package/r
   - ack-reload package auto appends client script to all html requests
 - Multiple connections supported
   - Now multiple browsers and multiple web socket connections can be maintained
-  - reload v2 now appears to include this (7/12/2017)
+  - reload v2 now appears to include this (7/12/17)
+- True unit tests (UPDATE 8/7: reload just started unit tests)
+  - ack-reload actually has real unit tests provided by mocha
 
 Express app for ack-reload
 ```javascript

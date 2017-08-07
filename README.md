@@ -55,21 +55,8 @@ ack-reload is a fork of the npm package [reload](https://www.npmjs.com/package/r
 - ack-reload does NOT have a name conflict on Ubuntu like reload does
 - Better Logging
   - Better verbose logging where an outside library can mandate how logging occurs
-- Weight loss
-  - ack-reload does NOT depend on Express
-    - UPDATE: 8/7/17 reload has removed Express but currently is broken
-  - Removed a great amount of weight in dependencies. Package is far simpler to use and weighs
-- More ways to implement
-  - Connect to any server, not just an express server.
-  - The non-cli reload.js is far more functional and easier to integrate into other projects.
-  - UPDATE 7/12/17 : reload v2 now support sever mode
 - Better Client Script Inclusion
   - ack-reload package auto appends client script to all html requests
-- Multiple connections supported
-  - Now multiple browsers and multiple web socket connections can be maintained
-  - reload v2 now appears to include this (7/12/17)
-- True unit tests (UPDATE 8/7: reload just started unit tests)
-  - ack-reload actually has real unit tests provided by mocha
 
 Express app for ack-reload
 ```javascript

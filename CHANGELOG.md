@@ -1,3 +1,7 @@
+2.0.1 / 2017-08-30
+------------------
+Fixed html script inclusion when html code comments present
+
 2.0.8 / 2017-07-12
 ------------------
 Added node 8 tests

@@ -21,9 +21,10 @@ describe('reload',function(){
     .then(function(){
       return promiseRequest({host:'localhost', port:'3030', path:'/index2.html'})
     })
+    //.then( response=>promiseResponseBody(response) )
     .then(function(res){
-      assert.equal(res.statusCode, 404)
       assert.equal(res.statusMessage, 'Not Found')
+      assert.equal(res.statusCode, 404)
     })
 
     //request index and then test response body
@@ -33,14 +34,9 @@ describe('reload',function(){
     .then(function(response){
       assert.equal(response.statusCode, 200)
       assert.equal(response.statusMessage, 'OK')
-      
-      response.setEncoding('utf8');
-      return new Promise(function(res,rej){
-        response.on('data', function (chunk) {
-          res(chunk)
-        })
-      })
+      return response
     })
+    .then( response=>promiseResponseBody(response) )
     .then(function(body){
       assert.equal(body.search(/reload\/reload\.js/)>=0, true)
     })
@@ -167,5 +163,14 @@ function promiseRequest(){
       res(response)
     }
     http.request.apply(http,args).end()
+  })
+}
+
+function promiseResponseBody(response){
+  response.setEncoding('utf8');
+  return new Promise(function(res,rej){
+    response.on('data', function (chunk) {
+      res(chunk)
+    })
   })
 }

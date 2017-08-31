@@ -26,7 +26,6 @@ describe('reload',function(){
       assert.equal(res.statusMessage, 'Not Found')
       assert.equal(res.statusCode, 404)
     })
-
     //request index and then test response body
     .then(function(){
       return promiseRequest({host:'localhost', port:'3030', path:'/index.html'})
@@ -59,11 +58,10 @@ describe('reload',function(){
     .then(function(body){
       assert.equal(body.search(/Reload/)>=0, true)
     })
-
+    .catch(done)
     .then(function(){
       config.httpServer.close(done)
     })
-    .catch(done)
   })
 
   it('serves-html5Mode',function(done){
@@ -74,7 +72,6 @@ describe('reload',function(){
     .then(function(setup){    
       config = setup
     })
-
     //request missing index2.html
     .then(function(){
       return promiseRequest({host:'localhost', port:'3030', path:'/index2.html'})
@@ -148,11 +145,10 @@ describe('reload',function(){
     .then(function(body){
       assert.equal(body.search(/Reload/)>=0, true)
     })
-
+    .catch(done)
     .then(function(){
       config.httpServer.close(done)
     })
-    .catch(done)
   })
 })
 

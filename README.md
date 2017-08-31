@@ -241,7 +241,7 @@ setTimeout(function(){
 
 ```javascript
 require('ack-reload')(__dirname,{
-  port:9856,
+  port:8080,
   log:console.log.bind(console),
   open:true,
   message:'reload',
@@ -319,7 +319,7 @@ var midware = reload.middleware(pathTo)
 require('http').createServer(function(req,res){
   midware(req,res)
 })
-.listen(9856,function(){
+.listen(8080,function(){
   if(err){
     console.log(err)
   }else{
@@ -332,7 +332,7 @@ require('http').createServer(function(req,res){
 
 - `pathTo`:  Folder to watch and serve. Defaults to current dir
 - `options`: 
-  - `port` Number = 9856 - The port to bind to. Can be set with PORT env variable as well.
+  - `port` Number = 8080 - The port to bind to. Can be set with PORT env variable as well.
   - `log` Function = console.log
   - `open` Boolean = true - open a browser window
   - `message` String - when port is in use, tailor prompt messages label
@@ -379,7 +379,7 @@ Options:
   -n, --hostname                    If -b flag is being used, this allows for custom hostnames. Defaults to localhost.
   -d, --dir [dir]                   The directory to serve up. Defaults to current dir.
   -e, --exts [extensions]           Extensions separated by commas or pipes. Defaults to html,js,css.
-  -p, --port [port]                 The port to bind to. Can be set with PORT env variable as well. Defaults to 9856
+  -p, --port [port]                 The port to bind to. Can be set with PORT env variable as well. Defaults to 8080
   -s, --start-page [start-page]		  Specify a start page. Defaults to index.html.
   -v, --verbose						          Turns on logging on the server and client side. Defaults to true.
   - `html5Mode`                     Boolean = false - Enable/disable always returning root index.html for all html 404 requests

@@ -34,7 +34,9 @@ var options = {
 }
 
 var dirArgIndex = process.argv.indexOf('-d')
-if(!dirArgIndex<0)dirArgIndex = process.argv.indexOf('--dir')
+if(dirArgIndex<0){
+  dirArgIndex = process.argv.indexOf('--dir')
+}
 var dir = dirArgIndex>=0 ? process.argv[dirArgIndex+1] : process.cwd()
 if(!isAbsolute(dir)){
   dir = path.join(process.cwd(), dir)

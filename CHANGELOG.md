@@ -1,3 +1,8 @@
+3.0.0 / 2019-07-23
+------------------
+Updated dependencies
+
+
 2.0.1 / 2017-08-30
 ------------------
 Fixed html script inclusion when html code comments present

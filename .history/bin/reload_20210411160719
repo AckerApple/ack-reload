@@ -1,7 +1,4 @@
 #!/usr/bin/env node
-const nconf = require('nconf')
-
-nconf.env().argv()
 
 var filterMaker = require('../lib/filterMaker.function')
 var reload = require('../lib/reload')
@@ -20,7 +17,7 @@ function runHelp(){
   console.log()
   console.log('  Options:')
   console.log('    -b, --browser', 'Open in the browser automatically.')
-  console.log('    -n, --host --hostname [hostname]', 'If -b flag is being used, this allows for custom hostnames. Defaults to localhost.')
+  console.log('    -n, --hostname [hostname]', 'If -b flag is being used, this allows for custom hostnames. Defaults to localhost.')
   console.log('    -d, --dir [dir]', 'The directory to serve up. Defaults to current dir.')
   console.log('    -e, --exts [extensions]', 'Extensions separated by commas or pipes. Defaults to html,js,css.')
   console.log('    -p, --port [port]', 'The port to bind to. Can be set with PORT env variable as well. Defaults to 9856')
@@ -49,14 +46,12 @@ options.browser = process.argv.indexOf('-b')>=0
 if(!options.browser)options.browser = process.argv.indexOf('--browser')>=0
 
 var hostArgIndex = process.argv.indexOf('-n')
-const host = nconf.get('host') || nconf.get('hostname')
-if(!host && hostArgIndex<0)hostArgIndex = process.argv.indexOf('--hostname')
-options.hostname = host || (hostArgIndex>=0 ? process.argv[hostArgIndex+1] : 'localhost')
+if(hostArgIndex<0)hostArgIndex = process.argv.indexOf('--hostname')
+options.hostname = hostArgIndex>=0 ? process.argv[hostArgIndex+1] : 'localhost'
 
 var portArgIndex = process.argv.indexOf('-p')
-const port = nconf.get('port')
 if(portArgIndex<0)portArgIndex = process.argv.indexOf('--port')
-options.port = port || (portArgIndex>=0 ? process.argv[portArgIndex+1] : getDefaultPort())
+options.port = portArgIndex>=0 ? process.argv[portArgIndex+1] : getDefaultPort()
 
 var startPageArgIndex = process.argv.indexOf('-s')
 if(startPageArgIndex<0)startPageArgIndex = process.argv.indexOf('--start-page')

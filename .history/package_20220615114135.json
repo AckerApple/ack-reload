@@ -1,6 +1,6 @@
 {
   "name": "ack-reload",
-  "version": "4.0.1",
+  "version": "4.0.0",
   "description": "Node.js module to refresh and reload your code in your browser when your code changes. No browser plugins required.",
   "repository": {
     "type": "git",
@@ -36,8 +36,7 @@
     "test:browser": "node ./bin/reload -b -d expressSampleApp/public -p 8181",
     "test:closes": "node ./bin/reload -b -d expressSampleApp/public --test",
     "help": "node ./bin/reload -h",
-    "save": "npm run patch:version && git add . && git commit -m \"save\" && git push",
-    "patch:version": "npm --no-git-tag-version version patch",
+    "save": "git add . && git commit -m \"save\" && git push",
     "deploy": "npm run save && npm publish"
   },
   "bin": {

@@ -1,7 +1,5 @@
 "use strict";
 
-nconf.env().argv()
-
 var path = require('path')
 var fs = require('fs')
 var WebSocket = require('ws')
@@ -71,13 +69,20 @@ function middleware(pathTo, httpServer, options){
   },
 
   routes.indexRequest = function(req,res){
-    var reqFile = req.url.replace(/(.*\/)([^?]*)(\?.*)*/g,'$2')
-    reqFile = reqFile || 'index.html'
-    reqFile = reqFile.replace('/',path.sep)
-    var readFile = path.join(pathTo,reqFile)
+    //var reqFile = req.url.replace(/(.*\/)([^?]*)(\?.*)*/g,'$2')
+    //reqFile = reqFile || 'index.html'
+    //reqFile = reqFile.replace('/',path.sep)
+    // var readFile = path.join(pathTo,reqFile)
+    
+    let reqFile = req.url.split('/').filter(v => v)
+    if ( !reqFile.length ) {
+      reqFile = ['index.html']
+    }
+    const readFile = path.join(pathTo, ...reqFile)
 
     respondHtmlFile(readFile, req, res)
     .catch(function(err){
+      console.log('error out', err)
       if(err.code=='ENOENT' && options.html5Mode){
         return respondHtmlFile(path.join(pathTo,'index.html'), req, res)
       }else{
@@ -85,6 +90,7 @@ function middleware(pathTo, httpServer, options){
       }
     })
     .catch(function(e){
+      console.log('super error')
       ackReloadLog.error(e)
       reqres404(req, res)
     })

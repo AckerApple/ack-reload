@@ -69,7 +69,6 @@ function middleware(pathTo, httpServer, options){
   },
 
   routes.indexRequest = function(req,res){
-    // 7-2023 removed: was not targeting a /staging/clock/template.html when running `ack-reload --dir ./staging`
     //var reqFile = req.url.replace(/(.*\/)([^?]*)(\?.*)*/g,'$2')
     //reqFile = reqFile || 'index.html'
     //reqFile = reqFile.replace('/',path.sep)
